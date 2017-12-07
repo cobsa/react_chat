@@ -1,44 +1,37 @@
 {
     "env": {
-        "browser": true,
-        "es6": true,
-        "jest/globals": true
+      "browser": true,
+      "es6": true,
+      "jest/globals": true
     },
-    "extends": "eslint:recommended",
+    "extends": "prettier",
     "parserOptions": {
-        "ecmaFeatures": {
-            "experimentalObjectRestSpread": true,
-            "jsx": true
-        },
-        "sourceType": "module"
+      "ecmaFeatures": {
+        "experimentalObjectRestSpread": true,
+        "jsx": true
+      },
+      "sourceType": "module"
     },
     "parser": "babel-eslint",
-    "plugins": [
-        "react",
-        "jest"
-    ],
+    "plugins": ["react", "jest", "prettier", "import"],
     "rules": {
-        "react/jsx-uses-vars": 2,
-        "indent": [
-            "error",
-            4,
-            {"SwitchCase": 1}
-        ],
-        "linebreak-style": [
-            "error",
-            "windows"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "never"
-        ],
-        "jest/no-disabled-tests": "warn",
-        "jest/no-focused-tests": "error",
-        "jest/no-identical-title": "error",
-        "jest/valid-expect": "error"
+      "prettier/prettier": "error",
+      "react/jsx-uses-vars": 2,
+      "indent": ["error", 2, { "SwitchCase": 1 }],
+      "linebreak-style": ["error", "windows"],
+      "quotes": ["error", "single"],
+      "semi": ["error", "never"],
+      "jest/no-disabled-tests": "warn",
+      "jest/no-focused-tests": "error",
+      "jest/no-identical-title": "error",
+      "jest/valid-expect": "error",
+      "no-console": "warn",
+      "import/no-unresolved": "warn",
+      "import/no-absolute-path": "warn",
+      "import/first": "warn",
+      "import/no-extraneous-dependencies": "warn",
+      "import/no-unassigned-import": ["warn", { "allow": ["**/*.css"] }],
+      "no-unused-vars": "warn"
     }
-}
+  }
+  
