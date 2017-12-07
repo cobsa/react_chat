@@ -1,4 +1,4 @@
-const initial = {
+export const initial = {
   status: {
     code: 'NOT_FETCHED',
     message: undefined
@@ -6,10 +6,10 @@ const initial = {
   messages: []
 }
 
-const messageReducer = (state, action) => {
+const messageReducer = (state = initial, action) => {
   switch (action.type) {
     default: {
-      return state.slice()
+      return { ...state }
     }
   }
 }
