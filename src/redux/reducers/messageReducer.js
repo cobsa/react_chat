@@ -13,15 +13,22 @@ const messageReducer = (state = initial, action) => {
     case constants.SET_MESSAGES: {
       return {
         ...state,
+        status: {
+          code: 'FETCHED'
+        },
         messages: action.payload.messages
       }
     }
     case constants.SET_MESSAGE: {
       return {
         ...state,
+        status: {
+          code: 'FETCHED'
+        },
         messages: state.messages.concat({
           message: action.payload.message,
-          uid: action.payload.uid
+          uid: action.payload.uid,
+          time: action.payload.time
         })
       }
     }

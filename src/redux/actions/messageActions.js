@@ -15,11 +15,12 @@ export const setMessages = messages => {
   }
 }
 
-export const setMessage = (message, uid) => {
+export const setMessage = (message, time, uid) => {
   return {
     type: constants.SET_MESSAGE,
     payload: {
       message,
+      time,
       uid
     }
   }

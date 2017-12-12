@@ -7,7 +7,7 @@ class ChatMessages extends React.Component {
   render() {
     const { messages } = this.props
     const listOfMessages = messages.map(message => {
-      return <Message key={message.uid} text={message.text} time={message.time} />
+      return <Message key={message.uid} message={message.message} time={message.time} />
     })
     return <div>{listOfMessages}</div>
   }
@@ -16,9 +16,9 @@ class ChatMessages extends React.Component {
 ChatMessages.propTypes = {
   messages: PropTypes.arrayOf(
     PropTypes.shape({
-      text: PropTypes.string,
+      message: PropTypes.string,
       time: PropTypes.string,
-      uid: PropTypes.string.isRequired
+      uid: PropTypes.string
     })
   )
 }

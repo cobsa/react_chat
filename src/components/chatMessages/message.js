@@ -5,7 +5,7 @@ class Message extends React.Component {
   render() {
     return (
       <div>
-        <div className="message-body">{this.props.text}</div>
+        <div className="message-body">{this.props.message}</div>
         <div className="message-time">{this.props.time}</div>
       </div>
     )
@@ -13,8 +13,8 @@ class Message extends React.Component {
 }
 
 Message.propTypes = {
-  text: PropTypes.string.isRequired,
-  time: PropTypes.string.isRequired
+  message: PropTypes.string,
+  time: PropTypes.string
 }
 
 export default Message
