@@ -62,14 +62,20 @@ export class ChatComponent extends React.Component {
   }
 
   render() {
+    const chatStyle = {
+      width: '80%',
+      margin: 'auto',
+      maxWidth: '1200px'
+    }
     if (this.props.status.code == 'FETCHED') {
       return (
-        <div>
+        <div style={chatStyle}>
           <ChatMessages messages={this.props.messages} />
           <ChatInput
             onChange={this.HandleChatChange}
             onSubmit={this.handleChatSubmit}
             value={this.state.chatInput}
+            placeholder="Write something"
           />
         </div>
       )
