@@ -8,19 +8,22 @@ import * as messageConstants from './constants/messages'
 import * as messageActions from './actions/messageActions'
 
 const messagesDatabase = firebase.database().ref('messages')
-
-export function getMessages() {
+export function getMessages(action) {
   // Get old messages from db and set up listener to new messages
   return eventChannel(emitter => {
-    messagesDatabase.on('child_added', message => {
-      emitter(
-        messageActions.setMessage(
-          message.child('message').val(),
-          message.child('time').val(),
-          message.key
+    messagesDatabase
+      .orderByChild('chatID')
+      .equalTo(action.payload.chatID)
+      .on('child_added', message => {
+        emitter(
+          messageActions.setMessage(
+            message.child('message').val(),
+            message.child('time').val(),
+            message.key,
+            message.child('chatID').val()
+          )
         )
-      )
-    })
+      })
     // The subscriber must return an unsubscribe function
     return () => {
       messagesDatabase.off('child_added')
@@ -33,13 +36,15 @@ export function* addMessage(action) {
   const newRef = messagesDatabase.push()
   newRef.set({
     message: action.payload.message,
-    time: moment().toISOString()
+    time: moment().toISOString(),
+    chatID: action.payload.chatID
   })
 }
 
 // Watcher sagas
 export function* watchGetMessages() {
-  const chan = yield call(getMessages)
+  const action = yield take(messageConstants.GET_MESSAGES)
+  const chan = yield call(getMessages, action)
   try {
     while (true) {
       const emitter = yield take(chan)

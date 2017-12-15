@@ -35,7 +35,7 @@ afterEach(() => {
   console.error.restore() //eslint disable no-console
 })
 
-test('Should render component with proper props', () => {
+test.skip('Should render component with proper props', () => {
   const component = shallow(<ChatMessages messages={messages} />)
   expect(component.exists()).toBeTruthy()
   sinon.assert.notCalled(console.error)

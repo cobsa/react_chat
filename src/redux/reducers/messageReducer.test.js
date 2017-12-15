@@ -1,43 +1,63 @@
 import messageReducer from './messageReducer'
-import { initial } from './messageReducer'
+import * as _ from 'lodash'
 
 import * as actions from '../actions/messageActions'
 
-const messages = [
-  {
-    message: 'Some messaage',
-    uid: ' 0123hklasjdklasd'
-  },
-  {
-    message: 'JOLasdkl 12 ',
-    uid: '12321839721'
-  }
-]
+const initial = {
+  chats: {}
+}
 
-test('Default case returns different object', () => {
-  expect(messageReducer(initial, {}) === initial).toBeFalsy()
-})
-
-test('Set messages as in replace current array of messages', () => {
-  expect(messageReducer(initial, actions.setMessages(messages))).toEqual({
-    ...initial,
-    messages
-  })
-})
-
-test('Add new message to array', () => {
-  const initialStateWithMessages = {
-    ...initial,
-    messages
-  }
+test('Add new message and new chat', () => {
   const message = {
     message: 'Message 3',
-    uid: '90218jaksld'
+    id: '90218jaksld',
+    time: 'now',
+    chatID: 'JA8921hpölajsdjk'
+  }
+  let expectedState = _.cloneDeep(initial)
+  expectedState.chats[message.chatID] = {
+    messages: [
+      {
+        message: message.message,
+        id: message.id,
+        time: message.time
+      }
+    ]
+  }
+
+  expect(
+    messageReducer(
+      initial,
+      actions.setMessage(message.message, message.time, message.id, message.chatID)
+    )
+  ).toEqual(expectedState)
+})
+
+test('Add multiple messages and a new chat', () => {
+  const message = {
+    message: 'Message 1',
+    id: '21398ulknasd',
+    time: 'notnow',
+    chatID: 'adsasdsadsasda'
+  }
+  const message2 = {
+    message: 'Message 2',
+    id: '90218jaksld',
+    time: 'now',
+    chatID: 'JA8921hpölajsdjk'
   }
   expect(
-    messageReducer(initialStateWithMessages, actions.setMessage(message.message, message.uid))
+    messageReducer(
+      messageReducer(
+        initial,
+        actions.setMessage(message.message, message.time, message.id, message.chatID)
+      ),
+      actions.setMessage(message2.message, message2.time, message2.id, message2.chatID)
+    )
   ).toEqual({
-    ...initialStateWithMessages,
-    messages: messages.concat(message)
+    chats: {
+      JA8921hpölajsdjk: { messages: [{ id: '90218jaksld', message: 'Message 2', time: 'now' }] },
+      adsasdsadsasda: { messages: [{ id: '21398ulknasd', message: 'Message 1', time: 'notnow' }] }
+    }
   })
 })

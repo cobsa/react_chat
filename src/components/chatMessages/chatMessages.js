@@ -30,7 +30,7 @@ class ChatMessages extends React.Component {
     }
     const { messages } = this.props
     const listOfMessages = messages.map(message => {
-      return <Message key={message.uid} message={message.message} time={message.time} />
+      return <Message key={message.id} message={message.message} time={message.time} />
     })
     return (
       <div style={chatBox} id="chatBox">

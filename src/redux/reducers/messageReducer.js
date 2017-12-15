@@ -1,39 +1,55 @@
-import * as constants from '../constants/messages'
+// @flow
 
-export const initial = {
-  status: {
-    code: 'NOT_FETCHED',
-    message: undefined
-  },
-  messages: []
+import * as constants from '../constants/messages'
+import * as _ from 'lodash'
+
+type MessageItem = { message: string, time: string, id: string }
+type StateAlias = {
+  chats: {
+    [key: string]: {
+      messages: Array<MessageItem>
+    }
+  }
 }
 
-const messageReducer = (state = initial, action) => {
+type ActionAlias = {
+  type: string,
+  payload: { message: string, time: string, id: string, chatID: string }
+}
+
+const initial = {
+  chats: {}
+}
+
+const messageReducer = (state: StateAlias = initial, action: ActionAlias) => {
   switch (action.type) {
-    case constants.SET_MESSAGES: {
-      return {
-        ...state,
-        status: {
-          code: 'FETCHED'
-        },
-        messages: action.payload.messages
-      }
-    }
     case constants.SET_MESSAGE: {
-      return {
-        ...state,
-        status: {
-          code: 'FETCHED'
-        },
-        messages: state.messages.concat({
+      let newState: StateAlias = _.cloneDeep(state) // Clone state
+      if (newState.chats[action.payload.chatID] !== undefined) {
+        // Add messages to existing chat
+        newState.chats[action.payload.chatID].messages = newState.chats[
+          action.payload.chatID
+        ].messages.concat({
           message: action.payload.message,
-          uid: action.payload.uid,
-          time: action.payload.time
+          time: action.payload.time,
+          id: action.payload.id
         })
+      } else {
+        // Add message to new chat
+        newState.chats[action.payload.chatID] = {
+          messages: [
+            {
+              message: action.payload.message,
+              time: action.payload.time,
+              id: action.payload.id
+            }
+          ]
+        }
       }
+      return newState
     }
     default: {
-      return { ...state }
+      return _.cloneDeep(state)
     }
   }
 }

@@ -12,14 +12,14 @@ Enzyme.configure({ adapter: new Adapter() })
 
 const messageStore = initial
 
-test('Should render page', () => {
+test.skip('Should render page', () => {
   const page = shallow(
     <ChatComponent messages={messageStore.messages} status={messageStore.status} />
   )
   expect(page.exists()).toBeTruthy()
 })
 
-test('Should render ChatMessages and ChatInput components', () => {
+test.skip('Should render ChatMessages and ChatInput components', () => {
   const messageStoreFetched = Object.assign({}, messageStore, {
     status: {
       code: 'FETCHED'

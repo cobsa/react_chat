@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import * as actions from '../redux/actions/messageActions'
 import ChatMessages from '../components/chatMessages/chatMessages'
@@ -7,18 +8,17 @@ import ChatInput from '../components/chatInput/chatInput'
 
 const mapStateToProps = state => {
   return {
-    messages: state.message.messages,
-    status: state.message.status
+    message: state.message
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    getMessages: () => {
-      dispatch(actions.getMessages())
+    getMessages: chatID => {
+      dispatch(actions.getMessages(chatID))
     },
-    addMessage: message => {
-      dispatch(actions.addMessage(message))
+    addMessage: (message, chatID) => {
+      dispatch(actions.addMessage(message, chatID))
     }
   }
 }
@@ -35,13 +35,13 @@ export class ChatComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getMessages()
+    this.props.getMessages(this.props.chatID)
   }
 
   handleChatSubmit(event) {
     event.preventDefault()
     if (this.state.valid) {
-      this.props.addMessage(this.state.chatInput)
+      this.props.addMessage(this.state.chatInput, this.props.chatID)
       this.setState({
         chatInput: '',
         valid: false
@@ -67,10 +67,10 @@ export class ChatComponent extends React.Component {
       margin: 'auto',
       maxWidth: '1200px'
     }
-    if (this.props.status.code == 'FETCHED') {
+    if (this.props.message.chats[this.props.chatID] !== undefined) {
       return (
         <div style={chatStyle}>
-          <ChatMessages messages={this.props.messages} />
+          <ChatMessages messages={this.props.message.chats[this.props.chatID].messages} />
           <ChatInput
             onChange={this.HandleChatChange}
             onSubmit={this.handleChatSubmit}
@@ -80,10 +80,20 @@ export class ChatComponent extends React.Component {
         </div>
       )
     }
-    return null
+    return (
+      <ChatInput
+        onChange={this.HandleChatChange}
+        onSubmit={this.handleChatSubmit}
+        value={this.state.chatInput}
+        placeholder="Write something"
+      />
+    )
   }
 }
 
+ChatComponent.propTypes = {
+  chatID: PropTypes.string.isRequired
+}
 const Chat = connect(mapStateToProps, mapDispatchToProps)(ChatComponent)
 
 export default Chat
