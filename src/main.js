@@ -10,7 +10,7 @@ var app = document.getElementById('app')
 ReactDom.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <Chat chatID="8+9812389hajlsjdas" />
+      <Chat chatID="8+kjljkljl" />
     </ConnectedRouter>
   </Provider>,
   app

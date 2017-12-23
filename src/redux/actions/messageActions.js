@@ -9,15 +9,6 @@ export const getMessages = chatID => {
   }
 }
 
-export const setMessages = messages => {
-  return {
-    type: constants.SET_MESSAGES,
-    payload: {
-      messages
-    }
-  }
-}
-
 export const setMessage = (message, time, id, chatID) => {
   return {
     type: constants.SET_MESSAGE,
