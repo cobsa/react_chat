@@ -21,3 +21,21 @@ export const addChat = (chatID: string, uid: string, role: number): ChatActionTy
     }
   }
 }
+
+type NewChatType = {
+  type: string,
+  payload: {
+    name: string,
+    uid: string
+  }
+}
+
+export const newChat = (name: string, defaultUserUID: string): NewChatType => {
+  return {
+    type: constants.NEW_CHAT,
+    payload: {
+      name,
+      uid: defaultUserUID
+    }
+  }
+}

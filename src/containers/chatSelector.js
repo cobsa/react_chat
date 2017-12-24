@@ -8,8 +8,11 @@ Allows user to select chat and create new chats
 
 class ChatSelectorComponent extends React.Component {
   render() {
-    return null
+    let chats = this.props.chat
+    let chatList = chats.map(chat => {
+      return (
+        <ChatList key={chat.id} name={chat.name} users={chat.users} onChange={this.handleChat} />
+      )
+    })
   }
 }
-
-

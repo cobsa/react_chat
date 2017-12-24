@@ -7,7 +7,11 @@ import firebase from './firebase'
 import * as messageConstants from './constants/messages'
 import * as messageActions from './actions/messageActions'
 
+import * as chatConstants from './constants/chats'
+import * as chatActions from './actions/chatActions'
+
 const messagesDatabase = firebase.database().ref('messages')
+const chatDatabase = firebase.database().ref('chats')
 export function getMessages(action) {
   // Get old messages from db and set up listener to new messages
   return eventChannel(emitter => {
@@ -28,6 +32,21 @@ export function getMessages(action) {
     return () => {
       messagesDatabase.off('child_added')
     }
+  })
+}
+
+export function getChats(action) {
+  return eventChannel(emitter => {
+    chatDatabase.on('child_added', chat => {
+      let users = chat.child('users')
+      // Loop list of users
+      users.forEach(user => {
+        chatActions.addChat(chat.key, user.child('uid').val(), user.role.val())
+      })
+      emitter(chatActions.addChat(message.key)
+    })
+    // return unsubscribe function
+    return chatDatabase.off('child_added')
   })
 }
 
